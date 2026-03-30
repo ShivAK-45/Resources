@@ -254,3 +254,102 @@ This video provides a comprehensive overview of **backend engineering**, emphasi
 ---
 
 This structured curriculum promises to equip backend developers with in-depth knowledge across theory, architecture, security, and practical implementation, enabling them to build professional-grade backend systems.
+
+### Summary of the Video : What is a Backend, how do they work and why do we need them?
+
+This video provides a detailed explanation of what a backend server is, how backend and frontend requests flow through the internet, and why backend logic cannot be fully implemented on the frontend. It uses practical examples and demonstrations on AWS infrastructure to clarify these concepts.
+
+---
+
+### Key Concepts and Workflow Overview
+
+- **Backend Server Definition**:
+  - A backend is a computer (server) listening for network requests such as HTTP, WebSocket, or gRPC on open ports (e.g., 80 or 443).
+  - It serves content like static files (images, JavaScript, HTML) or dynamic data (JSON).
+  - It also accepts data sent by clients.
+
+- **Request Flow from Browser to Backend**:
+  1. **Browser sends a request** to a domain/subdomain.
+  2. The **DNS server resolves** the domain name to a specific IP address.
+  3. The request reaches the **AWS EC2 instance** that hosts the backend server.
+  4. The request passes through an **AWS firewall (security group)** that controls allowed ports (e.g., 80 for HTTP, 443 for HTTPS).
+  5. On the instance, a **reverse proxy server (Nginx)** listens on port 80 and redirects HTTP traffic to HTTPS on port 443.
+  6. Nginx forwards the request to the backend server running locally on a specific port (e.g., 3001).
+  7. The backend server processes the request and returns a response.
+
+- **DNS and AWS Configuration**:
+  - The DNS uses **A records** to map subdomains to IP addresses.
+  - AWS EC2 instances provide public IP addresses used in DNS.
+  - Security groups define which ports are accessible externally.
+
+---
+
+### Backend Example: Instagram Like Notification Flow
+
+- When a user clicks "like" on a post:
+  - The app sends a request to the backend server.
+  - The server authenticates the user, persists the "like" action in a database.
+  - The server identifies the post owner and triggers a notification.
+  - The friend receives a notification on their device.
+
+This example illustrates that the backend **centralizes user data, manages state, and handles actions involving data persistence and notifications**.
+
+---
+
+### Why Backend Logic Cannot Fully Reside on the Frontend
+
+- **Frontend Workflow**:
+  - The frontend app (e.g., Next.js) is served as HTML, CSS, and JavaScript files from the server.
+  - The browser fetches these files and executes the JavaScript locally.
+  - The frontend runtime is the **browser**, which executes code in a sandboxed environment.
+
+- **Sandbox and Security Restrictions**:
+  - Browsers isolate code from the underlying operating system, limiting access to resources like the file system.
+  - Browsers enforce **CORS (Cross-Origin Resource Sharing)** policies restricting API calls to the same domain unless explicit permissions are set.
+  - This isolation prevents malicious code from accessing sensitive user data.
+
+- **Limitations of Frontend for Backend Tasks**:
+  - **Security:** Browsers cannot securely handle sensitive operations like accessing environment variables or file systems.
+  - **External API Calls:** Limited by CORS; backend servers can communicate with multiple external APIs without such restrictions.
+  - **Database Access:** Backend servers use native database drivers (e.g., PG for Postgres, MongoDB drivers) that maintain persistent connections and connection pools for efficiency. Browsers cannot maintain such connections.
+  - **Connection Pooling:** Backend servers efficiently manage thousands of database connections; browsers cannot do this.
+  - **Computing Power:** Client devices vary widely in hardware capability; backend servers can scale CPU and memory resources to handle heavy processing.
+
+---
+
+### Comparative Table: Backend vs Frontend Execution Context
+
+| Aspect                        | Backend Server                             | Frontend (Browser)                           |
+|------------------------------|------------------------------------------|---------------------------------------------|
+| Execution Environment         | Server OS with full resource access      | Sandboxed browser environment                |
+| Access to File System         | Full access                              | No access                                   |
+| Network Restrictions         | Can call any external APIs without CORS | Restricted by CORS                           |
+| Database Connection          | Native drivers, persistent connections  | No direct database access                    |
+| Security                     | Manages sensitive data securely          | Limited by sandbox and security policies    |
+| Computing Power              | Scalable server resources                 | Limited by client device hardware            |
+| Code Execution Location      | Server                                   | Client browser                              |
+
+---
+
+### Summary of the Backend Role
+
+- The backend primarily deals with **data management**:
+  - Fetching, receiving, and persisting data.
+  - Managing centralized information about users, states, and actions.
+  - Handling business logic that cannot be securely or efficiently executed on clients.
+
+- Backend servers provide a **centralized, secure, and scalable environment** essential for complex applications like social media.
+
+---
+
+### Final Insights
+
+- Backend servers are indispensable due to their security, access to databases, ability to handle multiple requests efficiently, and scalable computing power.
+- Frontend applications primarily handle user interactions and UI logic, running code locally with strict security and resource limitations.
+- Understanding the flow from browser to backend through DNS, firewalls, proxies, and server processes provides a holistic view of web application architecture.
+- The video sets a foundational understanding before deeper backend engineering concepts are introduced.
+
+---
+
+This comprehensive explanation clarifies **why backend servers are essential, how requests flow through infrastructure, and the distinct roles of frontend and backend in modern web applications**.
+
